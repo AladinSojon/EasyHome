@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!--
+
+Six Shooter Media Free Template
+http://www.sixshootermedia.com/free-templates/
+Released for free under a Creative Commons Attribution 2.5 License
+
+-->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="keywords" content="" />
+    <title>EasyHome</title>
+<link href="../static/1.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="header">
+
+  <!-- This is where the image of the house goes -->
+</div>
+<p style="text-align:center;"><img src="../static/images/easyhome_logo.png"></p>
+<!--h1 class="main_title"><a href="#">EasyHome</a></h1-->
+<div id="navigation">
+          <ul id="nav">
+            <li><a href="/">Home</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Post Ad</a></li>
+              <li><a href="#">Contact</a></li>
+            {% if session.logged_in %}
+              <li><a href="#">My Profile</a></li>
+              <li><a href="/logout">Logout</a></li>
+            {% else %}
+              <li><a href="/register">Register</a></li>
+              <li><a href="/loginmain">Login</a></li>
+            {% endif %}
+
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    <div class="container">
+      {% include 'includes/_messages.html' %}
+    </div>
+<div id="container">
+  <div id="inner_container">
+    <div id="content">
+    {% block body %}
+  <p style="text-align: center;font-size: 30px;color: #3798ef">Login</p>
+  <form action="" method="POST">
+    <div class="form-group">
+     <p style="text-align: center;font-size: 20px"><label>Username</label></p>
+     <p style="text-align: center"><input type="text" name="username" class="form-control" value={{request.form.username}}></p>
+    </div>
+    <div class="form-group">
+      <p style="text-align: center;font-size: 20px"><label>Password</label></p>
+      <p style="text-align: center"><input type="password" name="password" class="form-control" value={{request.form.password}}></p>
+    </div>
+      <p style="text-align: center"> <button type="submit" class="btn btn-primary">Submit</button></p>
+  </form>
+{% endblock %}
+    </div>
+  </div>
+</div>
+</body>
+</html>

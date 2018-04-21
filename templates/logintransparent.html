@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!--
+
+Six Shooter Media Free Template
+http://www.sixshootermedia.com/free-templates/
+Released for free under a Creative Commons Attribution 2.5 License
+
+-->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="keywords" content="" />
+    <title>EasyHome</title>
+    <link href='../static/1.css?version=2' rel='stylesheet' type="text/css">
+
+</head>
+<body>
+<div id="header">
+
+  <!-- This is where the image of the house goes -->
+</div>
+<p style="text-align:center;"><img src="../static/images/easyhome_logo.png"></p>
+<!--h1 class="main_title"><a href="#">EasyHome</a></h1-->
+<div id="navigation">
+          <ul id="nav">
+            <li><a href="/">Home</a></li>
+            <li><a href="#">About</a></li>
+            {% if session.logged_in %}
+            <li><a href="/post_ad" style="font-size: 11px">Post Ad</a></li>
+            {% else %}
+            <li><a href="/logintransparent" style="font-size: 11px">Post Ad</a></li>
+            {% endif %}
+              <li><a href="#">Contact</a></li>
+            {% if session.logged_in %}
+              <li><a href="#">My Profile</a></li>
+              <li><a href="/logout">Logout</a></li>
+            {% else %}
+              <li><a href="/registertrans">Register</a></li>
+              <li><a href="/logintransparent">Login</a></li>
+            {% endif %}
+
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    <div class="container">
+      {% include 'includes/_messages.html' %}
+    </div>
+
+        <img src="../static/images/imagenew.jpg">
+
+     <div class="login-box">
+       <img src="../static/images/avatar.png" class="avatar">
+        {% block body %}
+        <h1>Login Here</h1>
+          <form action="" method="POST">
+            <p>Username</p>
+              <input type="text" name="username" placeholder="Enter Username" class="form-control" value={{request.form.username}}>
+
+            <p>Password</p>
+              <input type="password" name="password" placeholder="Enter Password" class="form-control" value={{request.form.password}}>
+
+            <input type="submit" name="submit" value="Login">
+            </form>
+              {% endblock %}
+
+</div>
+</body>
+</html>

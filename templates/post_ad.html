@@ -1,0 +1,167 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!--
+
+Six Shooter Media Free Template
+http://www.sixshootermedia.com/free-templates/
+Released for free under a Creative Commons Attribution 2.5 License
+
+-->
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="keywords" content="" />
+    <title>EasyHome</title>
+    <link href='../static/1.css?version=2' rel='stylesheet' type="text/css">
+
+</head>
+<body>
+<div id="header">
+
+  <!-- This is where the image of the house goes -->
+</div>
+<p style="text-align:center;"><img src="../static/images/easyhome_logo.png"></p>
+<!--h1 class="main_title"><a href="#">EasyHome</a></h1-->
+<div id="navigation">
+          <ul id="nav">
+            <li><a href="/">Home</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Post Ad</a></li>
+              <li><a href="#">Contact</a></li>
+            {% if session.logged_in %}
+              <li><a href="/profile">My Profile</a></li>
+              <li><a href="/logout">Logout</a></li>
+            {% else %}
+              <li><a href="/registertrans">Register</a></li>
+              <li><a href="/logintransparent">Login</a></li>
+            {% endif %}
+
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+        <img src="../static/images/image.jpg">
+
+     <div class="signup-box">
+        {% block body %}
+        <h1>Post Ad</h1>
+          <form action="" method="POST">
+            <p>Address</p>
+            <input type="text" name="address" placeholder="Enter Address" class="form-control"  value={{request.form.address}}>
+              <p>House Type</p>
+              <select style="width: 180px;height: 25px;margin-top: 15px" name="housetype">
+                  <option>Family Flat</option>
+                  <option>Mes</option>
+                  <option>Commercial</option>
+              </select>
+              <p style="margin-top: 15px">Description</p>
+            <input type="text" name="description" placeholder="Enter Description" class="form-control"  value={{request.form.description}}>
+              <p>Rent Fee</p>
+            <input type="text" name="rentfee" placeholder="Enter Rent Fee" class="form-control"  value={{request.form.rentfee}}>
+              <p>Contact Information</p>
+            <input type="text" name="contactinformation" placeholder="Enter Contact Information" class="form-control"  value={{request.form.contactinformation}}>
+              <p>Division</p>
+              <select style="width: 180px;height: 25px;margin-top: 15px" name="division">
+                  <option>DHAKA</option>
+                  <option>SYLHET</option>
+                  <option>RANGPUR</option>
+                  <option>MYMENSINGH</option>
+                  <option>BARISAL</option>
+                  <option>CHITTAGONG</option>
+                  <option>KHULNA</option>
+                  <option>RAJSHAHI</option>
+              </select>
+              <p style="margin-top: 15px">District</p>
+                <select style="width: 180px;height: 25px;margin-top: 15px" name="district">
+                  <option>DHAKA</option>
+                  <option>FARIDPUR</option>
+                  <option>GAZIPUR</option>
+                  <option>GOPALGANJ</option>
+                  <option>JAMALPUR</option>
+                  <option>KISHOREGONJ</option>
+                  <option>MADARIPUR</option>
+                  <option>MANIKGANJ</option>
+                    <option>MUNSHIGANJ</option>
+                  <option>MYMENSINGH</option>
+                  <option>NARAYANGANJ</option>
+                  <option>Mymensingh</option>
+                  <option>NARSINGDI</option>
+                  <option>NETRAKONA</option>
+                  <option>RAJBARI</option>
+                  <option>SHARIATPUR</option>
+                    <option>SHERPUR</option>
+                    <option>TANGAIL</option>
+
+                    <option>SYLHET</option>
+                  <option>HABIGANJ</option>
+                  <option>MAULVIBAZAR</option>
+                  <option>SUNAMGANJ</option>
+
+                    <option>RANGPUR</option>
+                  <option>DINAJPUR</option>
+                  <option>GAIBANDHA</option>
+                  <option>KURIGRAM</option>
+                    <option>LALMONIRHAT</option>
+                  <option>NILPHAMARI</option>
+                  <option>PANCHAGARH</option>
+                  <option>THAKURGAON</option>
+
+                    <option>BARISAL</option>
+                  <option>BARGUNA</option>
+                    <option>BHOLA</option>
+                  <option>JHALOKATI</option>
+                  <option>PATUAKHALI</option>
+                  <option>PIROJPUR</option>
+
+
+                    <option>CHITTAGONG</option>
+                    <option>BANDARBAN</option>
+                  <option>BRAHMANBARIA</option>
+                  <option>CHANDPUR</option>
+                  <option>COMILLA</option>
+                    <option>COX'S BAZAR</option>
+                  <option>FENI</option>
+                    <option>KHAGRACHHARI</option>
+                  <option>LAKSHMIPUR</option>
+                  <option>NOAKHALI</option>
+                  <option>RANGAMATI</option>
+
+
+                    <option>KHULNA</option>
+                  <option>BAGERHAT</option>
+                  <option>CHUADANGA</option>
+                  <option>JESSORE</option>
+                    <option>JHENAIDAH</option>
+                  <option>MAGURA</option>
+                    <option>KUSHTIA</option>
+                  <option>MEHERPUR</option>
+                  <option>NARAIL</option>
+                    <option>SATKHIRA</option>
+
+                    <option>RAJSHAHI</option>
+                  <option>BOGRA</option>
+                    <option>CHAPAINABABGANJ</option>
+                  <option>JOYPURHAT</option>
+                    <option>PABNA</option>
+                  <option>NAOGAON</option>
+                  <option>NATORE</option>
+                    <option>SIRAJGANJ</option>
+              </select>
+              <p style="margin-top: 15px">Area</p>
+                <select style="width: 180px;height: 25px;margin-top: 15px" name="area">
+                     <option>FARIDPUR</option>
+                  <option>GAZIPUR</option>
+                  <option>GOPALGANJ</option>
+                  <option>JAMALPUR</option>
+                  <option>KISHOREGONJ</option>
+                  <option>MADARIPUR</option>
+                  <option>MANIKGANJ</option>
+                    </select>
+            <input type="submit" name="submit" value="Post" style="margin-top: 15px">
+            </form>
+              {% endblock %}
+
+</div>
+</body>
+</html>
