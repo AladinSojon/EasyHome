@@ -50,18 +50,45 @@ def data_rcv():
     print(id_n)
     return redirect('/description/'+str(id_n[2]))
 
-@app.route('/description/<string:name>/', methods = ['GET','POST'])
-def description(name):
+@app.route('/description_main/<string:name>/', methods = ['GET','POST'])
+def description_main(name):
     cursor = mysql.connection.cursor()
     cursor.execute(
         "SELECT address,housetype,contact from post_ad_table WHERE id=%s", [name])
     g_data = cursor.fetchall()
     print(g_data)
-    return render_template("description.html",g_data=g_data)
+    return render_template("description_main.html",g_data=g_data)
 #
 # @app.route('/des_test', methods = ['GET'])
 # def des_test():
 #     return render_template("des_test.html")
+
+
+
+@app.route('/profile_main',methods=['GET'])
+def profile_main():
+    cursor = mysql.connection.cursor()
+    cursor.execute(
+        "SELECT name,username,email,Mobile_no,Address from resistration_db  WHERE username = %s",[session['username']])
+    data = cursor.fetchall()
+    #profile newsfeed
+    cursor.execute(
+        "SELECT address,housetype,rentfee,id from post_ad_table WHERE username=%s", [session['username']])
+    data_n = cursor.fetchall()
+    x = len(data_n)
+    print(x)
+    if x>5:
+        li = range(x-5, x)
+        li= [*li]
+        li.reverse()
+    else:
+        li = range(0, x)
+        li = [*li]
+        li.reverse()
+    return render_template("profile_main.html",data=data,data_n=data_n,li=li)
+
+
+
 
 @app.route('/search_dhaka',methods=['GET', 'POST'])
 def search_dhaka():
