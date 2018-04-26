@@ -15,6 +15,15 @@ Released for free under a Creative Commons Attribution 2.5 License
     <meta name="keywords" content="" />
     <title>EasyHome</title>
 <link href="../static/1.css?version=1" rel="stylesheet" type="text/css" />
+
+    <script type="text/javascript">
+   function getvalue(Id) {
+       console.log(Id.childNodes[7].innerText);
+       // redirect("/description/"+Id.childNodes[7].innerText);
+       window.location.replace('http://127.0.0.1:5000/description/'+Id.childNodes[7].innerText);
+    }
+
+    </script>
 <style>
 body{
 			font: 1rem/1.6 "Helvetica", Sans-serif;
@@ -157,9 +166,9 @@ body{
        <main>
       <div>
       {% for d in li %}
-    <a href="#" title="Post">
+    <a title="Post">
 
-			<article>
+			<article onclick="getvalue(this)">
 
                 {% for row in data[d] %}
                     {% if row==data[d][0] %}

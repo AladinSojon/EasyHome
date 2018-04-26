@@ -15,23 +15,16 @@ Released for free under a Creative Commons Attribution 2.5 License
     <meta name="author" content="">
     <meta name="keywords" content="" />
     <title>EasyHome</title>
+    <link href="../static/1.css?version=1" rel="stylesheet" type="text/css" />
 
     <script type="text/javascript">
    function getvalue(Id) {
        console.log(Id.childNodes[7].innerText);
-       var xhttp = new XMLHttpRequest();
-         xhttp.onreadystatechange = function() {
-             if (this.readyState == 4 && this.status == 200) {
-                // Typical action to be performed when the document is ready:
-                document.getElementById("Id").innerHTML = xhttp.responseText;
-             }
-         };
-         xhttp.open("GET", "http://127.0.0.1:5000/data_rcv?query="+Id.childNodes[7].innerText, true);
-         xhttp.send();
+       // redirect("/description/"+Id.childNodes[7].innerText);
+       window.location.replace('http://127.0.0.1:5000/description/'+Id.childNodes[7].innerText);
     }
 
 </script>
-<link href="../static/1.css?version=1" rel="stylesheet" type="text/css" />
 <style>
 body{
 			font: 1rem/1.6 "Helvetica", Sans-serif;
@@ -146,7 +139,7 @@ body{
        <main>
       <div>
       {% for d in li %}
-     <a href="#" title="Post" >
+     <a title="Post" >
 
 			<article onclick="getvalue(this)">
 

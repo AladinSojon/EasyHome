@@ -39,25 +39,64 @@ def home():
 
     return render_template("index.html",data=data,li=li)
 
-
-
-g_data=""
-id_n=""
-@app.route('/data_rcv', methods=['GET'])
-def data_rcv():
-    homeId = request.args['query']
-    id_n = homeId.split()
-    print(id_n)
-    return redirect('/description/'+str(id_n[2]))
-
-@app.route('/description/<string:name>/', methods = ['GET','POST'])
-def description(name):
+@app.route('/profile',methods=['GET'])
+def profile():
     cursor = mysql.connection.cursor()
     cursor.execute(
-        "SELECT address,housetype,contact from post_ad_table WHERE id=%s", [name])
+        "SELECT name,username,email,Mobile_no,Address from resistration_db  WHERE username = %s",[session['username']])
+    data = cursor.fetchall()
+    #profile newsfeed
+    cursor.execute(
+        "SELECT address,housetype,rentfee,id from post_ad_table WHERE username=%s", [session['username']])
+    data_n = cursor.fetchall()
+    x = len(data_n)
+    print(x)
+    if x>5:
+        li = range(x-5, x)
+        li= [*li]
+        li.reverse()
+    else:
+        li = range(0, x)
+        li = [*li]
+        li.reverse()
+    return render_template("profile.html",data=data,data_n=data_n,li=li)
+
+
+# g_data=""
+# id_n=""
+# @app.route('/data_rcv', methods=['GET'])
+# def data_rcv():
+#     homeId = request.args['query']
+#     id_n = homeId.split()
+#     print(id_n)
+#     return redirect('/description/'+str(id_n[2]))
+#
+# @app.route('/description/<string:name>/', methods = ['GET','POST'])
+# def description(name):
+#     cursor = mysql.connection.cursor()
+#     cursor.execute(
+#         "SELECT address,housetype,contact from post_ad_table WHERE id=%s", [name])
+#     g_data = cursor.fetchall()
+#     print(g_data)
+#     return render_template("description.html",g_data=g_data)
+
+@app.route('/description/<string:id>', methods = ['GET'])
+def description(id):
+    homeId = id
+    # homeId = 12
+    id_n = homeId.split()
+    print(id_n)
+    cursor = mysql.connection.cursor()
+    cursor.execute(
+        "SELECT username,address,housetype,contact from post_ad_table WHERE id=%s", [id_n[2]])
     g_data = cursor.fetchall()
-    print(g_data)
-    return render_template("description.html",g_data=g_data)
+
+    cursor.execute(
+        "SELECT description from post_ad_table WHERE id=%s", [id_n[2]])
+    des_data = cursor.fetchall()
+    return render_template("description.html",g_data=g_data,des_data=des_data)
+
+
 #
 # @app.route('/des_test', methods = ['GET'])
 # def des_test():
@@ -346,10 +385,6 @@ def logintransparent():
             return render_template('logintransparent.html', error=error)
 
     return render_template('logintransparent.html')
-
-
-
-
 
 if __name__ == '__main__':
     app.secret_key='secret123'
