@@ -11,19 +11,27 @@ Released for free under a Creative Commons Attribution 2.5 License
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
+
     <meta name="author" content="">
     <meta name="keywords" content="" />
     <title>EasyHome</title>
-<link href="../static/1.css?version=1" rel="stylesheet" type="text/css" />
 
-<script type="text/javascript">
+    <script type="text/javascript">
    function getvalue(Id) {
        console.log(Id.childNodes[7].innerText);
-       // redirect("/description/"+Id.childNodes[7].innerText);
-       window.location.replace('http://127.0.0.1:5000/description/'+Id.childNodes[7].innerText);
+       var xhttp = new XMLHttpRequest();
+         xhttp.onreadystatechange = function() {
+             if (this.readyState == 4 && this.status == 200) {
+                // Typical action to be performed when the document is ready:
+                document.getElementById("Id").innerHTML = xhttp.responseText;
+             }
+         };
+         xhttp.open("GET", "http://127.0.0.1:5000/data_rcv?query="+Id.childNodes[7].innerText, true);
+         xhttp.send();
     }
 
 </script>
+<link href="../static/1.css?version=1" rel="stylesheet" type="text/css" />
 <style>
 body{
 			font: 1rem/1.6 "Helvetica", Sans-serif;
@@ -86,14 +94,10 @@ body{
           <ul id="nav">
             <li><a href="/" style="font-size: 11px">Home</a></li>
             <li><a href="#" style="font-size: 11px">About</a></li>
-            {% if session.logged_in %}
             <li><a href="/post_ad" style="font-size: 11px">Post Ad</a></li>
-            {% else %}
-            <li><a href="/logintransparent" style="font-size: 11px">Post Ad</a></li>
-            {% endif %}
               <li><a href="#" style="font-size: 11px">Contact</a></li>
             {% if session.logged_in %}
-              <li><a href="/profile_main" style="font-size: 11px">My Profile</a></li>
+              <li><a href="#" style="font-size: 11px">My Profile</a></li>
               <li><a href="/logout" style="font-size: 11px">Logout</a></li>
             {% else %}
               <li><a href="/registertrans" style="font-size: 11px">Register</a></li>
@@ -104,40 +108,57 @@ body{
         </div>
 <div id="container">
   <div id="inner_container">
-    <div id="sidebar">
-      <h1>Cities</h1>
-    <ul>
-      <li><a href="/search_dhaka" style="font-size: 15px">Dhaka</a></li>
-      <li><a href="/search_sylhet" style="font-size: 15px">Sylhet</a></li>
-      <li><a href="#" style="font-size: 15px">Khulna</a></li>
-      <li><a href="#" style="font-size: 15px">Rangpur</a></li>
-      <li><a href="#" style="font-size: 15px">Rajshahi</a></li>
-      <li><a href="/search_barisal" style="font-size: 15px">Barisal</a></li>
-        <li><a href="/search_chittagong" style="font-size: 15px">Chittagong</a></li>
+    <div id="sidebar_p">
+    {% block body %}
+        <h1 style= "margin-top: 10px;text-align: center">Profile</h1>
+        <p style="text-align: right">
+            <a href="edit_profile.html"><button autofocus="autofocus" style="border-radius: 1px">Edit Profile</button></a>
+        </p>
+        <table style="border-collapse: unset;width: 100%">
+        <tr>
+        <td style="width: 50%">
+        <img >
+        <p style="margin-bottom: 2px"> {{session.username}} </p>
+    {% endblock %}
+        </td>
+        <td style="width: 50%; text-align: left">
 
-    </ul>
+
+                {% for row in data %}
+
+                        <p style="size: 20px">Name: {{row[0]}}</p>
+
+                        <p>E-mail: {{ row[2]}}</p>
+
+                        <p>Mobile No: {{ row[3]}}</p>
+
+                        <p>Address: {{ row[4]}}</p>
+
+                {% endfor %}
+
+        </td>
+
+        </tr>
+        </table>
     </div>
     <div id="content">
-      <h1>Welcome!</h1>
-      <p class="note" style="font-size: 14px"> Hello and welcome to 'EasyHome' of house renting.</p>
-
-      <h1>Newsfeed</h1>
+      <h1 style= "margin-top: 10px; text-align: center">My Posted Advertise</h1>
        <main>
       <div>
       {% for d in li %}
-    <a title="Post">
+     <a href="#" title="Post" >
 
-			<article  onclick="getvalue(this)">
+			<article onclick="getvalue(this)">
 
-                {% for row in data[d] %}
-                    {% if row==data[d][0] %}
-                     <p style="color: white">Address : {{data[d][0]}}</p>
-                     {% elif row==data[d][1] %}
-                     <p style="color: white">Housetype : {{ data[d][1]}}</p>
-                     {% elif row==data[d][2] %}
-                     <p style="color: white">Rentfee : {{ data[d][2]}}</p>
-                     {% elif row==data[d][3] %}
-                     <p style="color: white">Id : {{ data[d][3]}}</p>
+               {% for row in data_n[d] %}
+                    {% if row==data_n[d][0] %}
+                     <p style="color: white">Address : {{data_n[d][0]}}</p>
+                     {% elif row==data_n[d][1] %}
+                     <p style="color: white">Housetype : {{ data_n[d][1]}}</p>
+                     {% elif row==data_n[d][2] %}
+                     <p style="color: white">Rentfee : {{ data_n[d][2]}}</p>
+                     {% elif row==data_n[d][3] %}
+                     <p style="color: white">Id : {{ data_n[d][3]}}</p>
                      {% endif%}
                 {% endfor %}
 
@@ -147,10 +168,8 @@ body{
 					<figcaption>Post</figcaption>
 				</figure>
 			</article>
-		</a>
-       {% endfor %}
-
-
+			</a>
+		{% endfor %}
 		</div>
 		</main>
       <blockquote>
