@@ -21,9 +21,9 @@ text-decoration:none;
 }
 
 #header {
-height:248px;
+height:240px;
 display:block;
-background:url("/static/images/header.jpg") top center no-repeat;
+/*background:url("/static/images/header.jpg") top center no-repeat;*/
 }
 
 h1.main_title {
@@ -49,6 +49,7 @@ padding:5px;
 #navigation {
 background:#181825;
 width:650px;
+    height: 30px;
 border-top:1px solid #2E2E47;
 padding:12px 0;
 margin:35px auto 1px;

@@ -19,12 +19,13 @@ Released for free under a Creative Commons Attribution 2.5 License
 </head>
 <body>
 <div id="header">
-
   <!-- This is where the image of the house goes -->
+  <p style="text-align:center;"><img src="../static/images/easyhome_logo.png"></p>
+
 </div>
-<p style="text-align:center;"><img src="../static/images/easyhome_logo.png"></p>
+
 <!--h1 class="main_title"><a href="#">EasyHome</a></h1-->
-<div id="navigation">
+<div id="navigation" style="margin-top: -155px">
           <ul id="nav">
             <li><a href="/">Home</a></li>
             <li><a href="#">About</a></li>
@@ -51,11 +52,11 @@ Released for free under a Creative Commons Attribution 2.5 License
 
         <img src="../static/images/image.jpg">
 
-     <div class="signup-box">
+     <div class="signup-box" style="margin-top: -270px">
         {% block body %}
   <h1 style="text-align: center">Register</h1>
   {% from "includes/_formhelpers.html" import render_field %}
-  <form method="POST" action="">
+  <form form id="upload-form" action="{{ url_for('registertrans') }}" method="POST" enctype="multipart/form-data">
     <div class="form-group" style="text-align: center">
       {{render_field(form.name, class_="form-control")}}
     </div>
@@ -78,6 +79,12 @@ Released for free under a Creative Commons Attribution 2.5 License
       <div class="form-group" style="text-align: center">
       {{render_field(form.address, class_="form-control")}}
     </div>
+
+      <div class="form-group" style="text-align: center">
+     <strong>Files:</strong><br>
+       <input id="file-picker" type="file" name="file" accept="image/*" multiple>
+       <div id="msg"></div>
+        </div>
     <p style="text-align: center"><input type="submit" class="btn btn-primary" value="Submit"></p>
   </form>
 {% endblock %}

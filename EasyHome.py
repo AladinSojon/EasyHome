@@ -1,7 +1,8 @@
 import gc
+import os
 
 import MySQLdb
-from flask import Flask, render_template, request, flash, session, redirect, url_for
+from flask import Flask, render_template, request, flash, session, redirect, url_for, send_from_directory
 from flask_mysqldb import MySQL
 from jinja2 import Environment
 from requests import Session
@@ -10,6 +11,9 @@ from passlib.hash import sha256_crypt
 from MySQLdb import escape_string as thwart, connection
 from functools import wraps
 
+__author__ = 'ibininja'
+
+
 app = Flask(__name__)
 app.secret_key = "super secret key"
 app.config['MYSQL_HOST'] = 'localhost'
@@ -17,8 +21,9 @@ app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = 'password'
 app.config['MYSQL_DB'] = "Easyhome_db"
 mysql = MySQL(app)
-jinja_env = Environment(extensions=['jinja2.ext.loopcontrols'])
 
+APP_ROOT = os.path.dirname(os.path.abspath(__file__))
+jinja_env = Environment(extensions=['jinja2.ext.loopcontrols'])
 
 @app.route('/',methods=['GET'])
 def home():
@@ -27,9 +32,13 @@ def home():
         "SELECT address,housetype,rentfee,id from post_ad_table")
     data = cursor.fetchall()
     x = len(data)
-    print(x)
-    if x>5:
-        li = range(x-5, x)
+    if x>6:
+        l = x - 6
+    else:
+        l=0
+    print(l)
+    if x>6:
+        li = range(x-6, x)
         li= [*li]
         li.reverse()
     else:
@@ -37,7 +46,20 @@ def home():
         li = [*li]
         li.reverse()
 
-    return render_template("index.html",data=data,li=li)
+    img = []
+
+    print(li)
+    for d in li:
+        b = str(data[d][3]) + ".jpg"
+        img.append(b)
+
+    # for c in img:
+    #     print(c)
+
+    img = [*img]
+    img.reverse()
+    print(img)
+    return render_template("index.html",data=data,li=li, img=img, l=l)
 
 @app.route('/profile',methods=['GET'])
 def profile():
@@ -51,34 +73,33 @@ def profile():
     data_n = cursor.fetchall()
     x = len(data_n)
     print(x)
-    if x>5:
-        li = range(x-5, x)
+
+    img = []
+
+    if x>6:
+        li = range(x-6, x)
         li= [*li]
         li.reverse()
     else:
         li = range(0, x)
         li = [*li]
         li.reverse()
-    return render_template("profile.html",data=data,data_n=data_n,li=li)
 
+    for d in li:
+        print(d)
+        print(data_n[d][3])
+        img.append(str(data_n[d][3])+".jpg")
 
-# g_data=""
-# id_n=""
-# @app.route('/data_rcv', methods=['GET'])
-# def data_rcv():
-#     homeId = request.args['query']
-#     id_n = homeId.split()
-#     print(id_n)
-#     return redirect('/description/'+str(id_n[2]))
-#
-# @app.route('/description/<string:name>/', methods = ['GET','POST'])
-# def description(name):
-#     cursor = mysql.connection.cursor()
-#     cursor.execute(
-#         "SELECT address,housetype,contact from post_ad_table WHERE id=%s", [name])
-#     g_data = cursor.fetchall()
-#     print(g_data)
-#     return render_template("description.html",g_data=g_data)
+    if x>6:
+        l = x - 6
+    else:
+        l=0
+    img = [*img]
+    img.reverse()
+
+    usr_image = session['username']+'.jpg'
+    return render_template("profile.html",data=data,data_n=data_n,li=li, img = img, l=l, usr_image = usr_image)
+
 
 @app.route('/description/<string:id>', methods = ['GET'])
 def description(id):
@@ -120,11 +141,30 @@ def search_dhaka():
 
         x= len(data)
         print(x)
-        if x > 5:
-            li = range(0, 5)
+
+        img = []
+        if x > 6:
+            li = range(x - 6, x)
+            li = [*li]
+            li.reverse()
         else:
             li = range(0, x)
-        return render_template("search_dhaka.html",data=data,li=li)
+            li = [*li]
+            li.reverse()
+
+        for d in li:
+            print(d)
+            print(data[d][3])
+            img.append(str(data[d][3]) + ".jpg")
+
+        if x > 6:
+            l = x - 6
+        else:
+            l = 0
+        img = [*img]
+        img.reverse()
+
+        return render_template("search_dhaka.html",data=data,li=li,img = img, l=l)
     return render_template("search_dhaka.html")
 
 
@@ -146,11 +186,30 @@ def search_sylhet():
 
         x= len(data)
         print(x)
-        if x > 5:
-            li = range(0, 5)
+
+        img = []
+        if x > 6:
+            li = range(x - 6, x)
+            li = [*li]
+            li.reverse()
         else:
             li = range(0, x)
-        return render_template("search_sylhet.html",data=data,li=li)
+            li = [*li]
+            li.reverse()
+
+        for d in li:
+            print(d)
+            print(data[d][3])
+            img.append(str(data[d][3]) + ".jpg")
+
+        if x > 6:
+            l = x - 6
+        else:
+            l = 0
+        img = [*img]
+        img.reverse()
+
+        return render_template("search_sylhet.html",data=data,li=li,img = img, l=l)
     return render_template("search_sylhet.html")
 
 @app.route('/search_chittagong',methods=['GET', 'POST'])
@@ -167,15 +226,34 @@ def search_chittagong():
         cur1.execute(
             "SELECT address,housetype,rentfee,id FROM post_ad_table where (housetype, area)=(%s, %s)",
             (housetype, area))
-        data=cur1.fetchall()
+        data = cur1.fetchall()
 
-        x= len(data)
+        x = len(data)
         print(x)
-        if x > 5:
-            li = range(0, 5)
+
+        img = []
+        if x > 6:
+            li = range(x - 6, x)
+            li = [*li]
+            li.reverse()
         else:
             li = range(0, x)
-        return render_template("search_chittagong.html",data=data,li=li)
+            li = [*li]
+            li.reverse()
+
+        for d in li:
+            print(d)
+            print(data[d][3])
+            img.append(str(data[d][3]) + ".jpg")
+
+        if x > 6:
+            l = x - 6
+        else:
+            l = 0
+        img = [*img]
+        img.reverse()
+
+        return render_template("search_chittagong.html",data=data,li=li,img = img, l=l)
     return render_template("search_chittagong.html")
 
 @app.route('/search_barisal',methods=['GET', 'POST'])
@@ -192,15 +270,34 @@ def search_barisal():
         cur1.execute(
             "SELECT address,housetype,rentfee,id FROM post_ad_table where (housetype, area)=(%s, %s)",
             (housetype, area))
-        data=cur1.fetchall()
+        data = cur1.fetchall()
 
-        x= len(data)
+        x = len(data)
         print(x)
-        if x > 5:
-            li = range(0, 5)
+
+        img = []
+        if x > 6:
+            li = range(x - 6, x)
+            li = [*li]
+            li.reverse()
         else:
             li = range(0, x)
-        return render_template("search_barisal.html",data=data,li=li)
+            li = [*li]
+            li.reverse()
+
+        for d in li:
+            print(d)
+            print(data[d][3])
+            img.append(str(data[d][3]) + ".jpg")
+
+        if x > 6:
+            l = x - 6
+        else:
+            l = 0
+        img = [*img]
+        img.reverse()
+
+        return render_template("search_barisal.html",data=data,li=li,img = img, l=l)
     return render_template("search_barisal.html")
 
 
@@ -222,6 +319,9 @@ class RegisterForm(Form):
     address = StringField('Address', [validators.Length(min=1, max=50)])
 
 
+
+
+
 @app.route('/post_ad', methods=['GET', 'POST'])
 def post_ad():
     if request.method == 'POST':
@@ -236,6 +336,7 @@ def post_ad():
         area = request.form.get('area')
         username = [session['username']]
 
+
         # Create cursor
         cur = mysql.connection.cursor()
 
@@ -243,6 +344,34 @@ def post_ad():
         cur.execute(
             "INSERT INTO post_ad_table( address, housetype, description, rentfee, contact, division, district, area, username) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s)",
             (address, housetype, description, rentfee, contactinformation, division, district, area, username))
+
+        cur.execute(
+            "SELECT id FROM post_ad_table where (address, housetype, description, rentfee, contact, division, district, area, username)=(%s, %s, %s, %s, %s, %s, %s, %s, %s)",
+            (address, housetype, description, rentfee, contactinformation, division, district, area, username))
+        data = cur.fetchall()
+        print(data[0][0])
+        Id = str(data[0][0])+".jpg"
+        print(Id)
+
+        target = os.path.join(APP_ROOT, 'images/')
+        # target = os.path.join(APP_ROOT, 'static/')
+        print(target)
+        if not os.path.isdir(target):
+            os.mkdir(target)
+        else:
+            print("Couldn't create upload directory: {}".format(target))
+        print(request.files.getlist("file"))
+        for upload in request.files.getlist("file"):
+            print(upload)
+            print("{} is the file name".format(upload.filename))
+            filename = upload.filename
+
+            # Id = request.form['Id']
+            # Id = Id + ".jpg"
+            destination = "/".join([target, Id])
+            print("Accept incoming file:", filename)
+            print("Save it to:", destination)
+            upload.save(destination)
 
         # Commit to DB
         mysql.connection.commit()
@@ -253,6 +382,37 @@ def post_ad():
         return render_template("index.html")
     return render_template("post_ad.html")
 
+
+@app.route('/profile/<filename>')
+def send_image(filename):
+    return send_from_directory("images", filename)
+
+@app.route('/upload/<filename>')
+def send_image1(filename):
+    return send_from_directory("images", filename)
+
+@app.route('/<filename>')
+def send_image2(filename):
+    return send_from_directory("images", filename)
+@app.route('/description/<filename>')
+def send_image3(filename):
+    return send_from_directory("images", filename)
+
+@app.route('/search_dhaka/<filename>')
+def send_image4(filename):
+    return send_from_directory("images", filename)
+
+@app.route('/search_sylhet/<filename>')
+def send_image5(filename):
+    return send_from_directory("images", filename)
+
+@app.route('/search_chittagong/<filename>')
+def send_image6(filename):
+    return send_from_directory("images", filename)
+
+@app.route('/search_barisal/<filename>')
+def send_image7(filename):
+    return send_from_directory("images", filename)
 
 # User loginmain
 @app.route('/loginmain', methods=['GET', 'POST'])
@@ -336,6 +496,31 @@ def registertrans():
         # Execute query
         cur.execute("INSERT INTO resistration_db( name, username, email, password, Mobile_no, Address) VALUES(%s, %s, %s, %s, %s, %s)", (name,  username, email, password, mobileno,address))
 
+        cur.execute(
+            "SELECT username FROM resistration_db where (username)=(%s)",[username])
+        data = cur.fetchall()
+        print(data[0][0])
+        Id = str(data[0][0]) + ".jpg"
+        print(Id)
+        target = os.path.join(APP_ROOT, 'images/')
+        # target = os.path.join(APP_ROOT, 'static/')
+        print(target)
+        if not os.path.isdir(target):
+            os.mkdir(target)
+        else:
+            print("Couldn't create upload directory: {}".format(target))
+        print(request.files.getlist("file"))
+        for upload in request.files.getlist("file"):
+            print(upload)
+            print("{} is the file name".format(upload.filename))
+            filename = upload.filename
+
+            # Id = request.form['Id']
+            # Id = Id + ".jpg"
+            destination = "/".join([target, Id])
+            print("Accept incoming file:", filename)
+            print("Save it to:", destination)
+            upload.save(destination)
         # Commit to DB
         mysql.connection.commit()
 

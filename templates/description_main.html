@@ -19,19 +19,20 @@ Released for free under a Creative Commons Attribution 2.5 License
 </head>
 <body>
 <div id="header">
-
   <!-- This is where the image of the house goes -->
+  <p style="text-align:center;"><img src="../static/images/easyhome_logo.png"></p>
+
 </div>
-<p style="text-align:center;"><img src="../static/images/easyhome_logo.png"></p>
+
 <!--h1 class="main_title"><a href="#">EasyHome</a></h1-->
-<div id="navigation">
+<div id="navigation" style="margin-top: -155px">
           <ul id="nav">
             <li><a href="/" style="font-size: 11px">Home</a></li>
             <li><a href="#" style="font-size: 11px">About</a></li>
             <li><a href="/post_ad" style="font-size: 11px">Post Ad</a></li>
               <li><a href="#" style="font-size: 11px">Contact</a></li>
             {% if session.logged_in %}
-              <li><a href="#" style="font-size: 11px">My Profile</a></li>
+              <li><a href="/profile" style="font-size: 11px">My Profile</a></li>
               <li><a href="/logout" style="font-size: 11px">Logout</a></li>
             {% else %}
               <li><a href="/registertrans" style="font-size: 11px">Register</a></li>
@@ -45,10 +46,23 @@ Released for free under a Creative Commons Attribution 2.5 License
         <table style="width: 100%; height: 5cm">
             <tr >
                 <td style="width: 40%; text-align: center">
-                    dfsafasdf
+
+                  <img src="{{url_for('send_image3',filename=img)}}">
+
                 </td>
                 <td style="width: 60%; text-align: left">
-                    <p>Posted By: </p>
+                {% for row in g_data[0] %}
+
+                    {% if row==g_data[0][0] %}
+                     <p style="color: white">Posted By: {{g_data[0][0]}}</p>
+                     {% elif row==g_data[0][1] %}
+                     <p style="color: white">Address : {{g_data[0][1]}}</p>
+                     {% elif row==g_data[0][2] %}
+                     <p style="color: white">Housetype : {{ g_data[0][2]}}</p>
+                     {% elif row==g_data[0][3] %}
+                     <p style="color: white">Contact : {{ g_data[0][3]}}</p>
+                     {% endif%}
+                {% endfor %}
 
                 </td>
 
@@ -62,7 +76,12 @@ Released for free under a Creative Commons Attribution 2.5 License
         <table style="width: 100%; height: 5cm; margin-top: 2px">
             <tr >
                 <td>
-                    fsfasf
+                 {% for row in des_data[0] %}
+                    {% if row==des_data[0][0] %}
+                     <p style="color: white">{{des_data[0][0]}}</p>
+                     {% endif%}
+                {% endfor %}
+
                 </td>
 
             </tr>

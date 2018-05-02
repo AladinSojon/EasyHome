@@ -15,23 +15,26 @@ Released for free under a Creative Commons Attribution 2.5 License
     <meta name="keywords" content="" />
     <title>EasyHome</title>
     <link href='../static/1.css?version=2' rel='stylesheet' type="text/css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+
 
 </head>
 <body>
 <div id="header">
-
   <!-- This is where the image of the house goes -->
+  <p style="text-align:center;"><img src="../static/images/easyhome_logo.png"></p>
+
 </div>
-<p style="text-align:center;"><img src="../static/images/easyhome_logo.png"></p>
+
 <!--h1 class="main_title"><a href="#">EasyHome</a></h1-->
-<div id="navigation">
+<div id="navigation" style="margin-top: -155px">
           <ul id="nav">
             <li><a href="/">Home</a></li>
             <li><a href="#">About</a></li>
             <li><a href="#">Post Ad</a></li>
               <li><a href="#">Contact</a></li>
             {% if session.logged_in %}
-              <li><a href="/profile_main">My Profile</a></li>
+              <li><a href="/profile">My Profile</a></li>
               <li><a href="/logout">Logout</a></li>
             {% else %}
               <li><a href="/registertrans">Register</a></li>
@@ -43,10 +46,10 @@ Released for free under a Creative Commons Attribution 2.5 License
       </div>
         <img src="../static/images/image.jpg">
 
-     <div class="signup-box">
+     <div class="signup-box" style="margin-top: -250px">
         {% block body %}
         <h1>Post Ad</h1>
-          <form action="" method="POST">
+          <form form id="upload-form" action="{{ url_for('post_ad') }}" method="POST" enctype="multipart/form-data">
             <p>Address</p>
             <input type="text" name="address" placeholder="Enter Address" class="form-control"  value={{request.form.address}}>
               <p>House Type</p>
@@ -150,14 +153,136 @@ Released for free under a Creative Commons Attribution 2.5 License
               </select>
               <p style="margin-top: 15px">Area</p>
                 <select style="width: 180px;height: 25px;margin-top: 15px" name="area">
-                     <option>FARIDPUR</option>
-                  <option>GAZIPUR</option>
-                  <option>GOPALGANJ</option>
-                  <option>JAMALPUR</option>
-                  <option>KISHOREGONJ</option>
-                  <option>MADARIPUR</option>
-                  <option>MANIKGANJ</option>
+                  <option>BADDA</option>
+                  <option>BANANI</option>
+                  <option>BANGLAMOTOR</option>
+                  <option>BANGSHAL</option>
+                  <option>BARIDHARA</option>
+                  <option>BASABO</option>
+                  <option>BASUNDHARA</option>
+                  <option>CANTONMENT</option>
+                  <option>CHAUKBAZAR</option>
+                  <option>DEMRA</option>
+                  <option>DHAMRAI</option>
+                  <option>DHANMONDI</option>
+                  <option>ELEPHANT ROAD</option>
+                  <option>GULSHAN</option>
+                  <option>HAZARIBAG</option>
+                  <option>JATRABARI</option>
+                  <option>KAFRUL</option>
+                  <option>KAMRANGIRCHAR</option>
+                  <option>KARWANBAZAR</option>
+                  <option>KHILGAON</option>
+                  <option>KHILKHET</option>
+                  <option>LALBAG</option>
+                  <option>MALIBAG</option>
+                  <option>MIRPUR</option>
+                  <option>MOGHBAZAR</option>
+                  <option>MOTIJHEEL</option>
+                  <option>MOHAMMADPUR</option>
+                  <option>NEW MARKET</option>
+                  <option>PALTAN</option>
+                  <option>RAMNA</option>
+                  <option>RAMPURA</option>
+                  <option>UTTARA</option>
+                  <option>SAVAR</option>
+                  <option>SHAJAHANPUR</option>
+                  <option>TEJGAON</option>
+                  <option>TONGI</option>
+                  <option>WARI</option>
+
+
+                  <option>AKHALIA</option>
+                  <option>AMBER KHANA</option>
+                  <option>BAGH BARI</option>
+                  <option>BALAGONJ</option>
+                  <option>BANDAR BAZAR</option>
+                  <option>BEANIBAZAR</option>
+                  <option>BIMANBANDAR</option>
+                  <option>BISHWANATH</option>
+                  <option>CHOUHATTA</option>
+                  <option>COMPANIGONJ</option>
+                  <option>DARGAH MAHALLA</option>
+                  <option>FENCHUGANJ</option>
+                  <option>GOLAPGANJ</option>
+                  <option>JAINTAPUR</option>
+                  <option>KANAIGHAT</option>
+                  <option>KUMAR PARA</option>
+                  <option>LAMA BAZAR</option>
+                  <option>MAJORTILA</option>
+                  <option>NAYASARAK</option>
+                  <option>NEHARI PARA</option>
+                  <option>OSMANI NAGAR</option>
+                  <option>PATHAN TULA</option>
+                  <option>SHAHI EIDGAH</option>
+                  <option>SHAHPORAN</option>
+                  <option>SHIBGANJ</option>
+                  <option>SOUTH SURMA</option>
+                  <option>SUBHANI GHAT</option>
+                  <option>SUBID BAZAR</option>
+                  <option>UPOSHOHOR</option>
+                  <option>ZAKIGANJ</option>
+                  <option>ZINDA BAZAR</option>
+
+
+                   <option>AMTALA</option>
+                  <option>BANGLABAZAR</option>
+                  <option>BELTOLA FERI GHAT</option>
+                  <option>CHAND MARI</option>
+                  <option>CHAWK BAZAR</option>
+                  <option>CITY GATE BARISAL</option>
+                  <option>KALIZIRA</option>
+
+                   <option>KASHIPUR BAZAR</option>
+                  <option>LAUNCH GHAT</option>
+                  <option>NATTULLBAD</option>
+                  <option>NAZIRMOHOLLA</option>
+                  <option>NATUN BAZAR</option>
+                  <option>NOBOGRAM ROAD</option>
+                  <option>PURAN BAZAR</option>
+                  <option>RUPATALI</option>
+                 <option>SADAR ROAD</option>
+
+
+                        <option>ANDERKILLA</option>
+                  <option>ANWARA</option>
+                  <option>AGRABAD</option>
+                  <option>BAIZID</option>
+                  <option>BANDAR</option>
+                  <option>CDA AVENUE</option>
+                  <option>CHANDANAISH</option>
+                  <option>CHANDGAON</option>
+                  <option>CORNELHAT</option>
+                  <option>CHAWKBAZAR</option>
+                  <option>DOUBLE MOORING</option>
+                  <option>FATIKCHARI</option>
+                  <option>HALISHAHAR</option>
+                  <option>HATHAZARI</option>
+                  <option>JAMALKHAN</option>
+                  <option>KARNAFULY</option>
+                  <option>KHULSHI</option>
+                  <option>KOTWALI</option>
+
+                  <option>LALKHAN BAZAR</option>
+                  <option>LOHAGARA</option>
+                  <option>MIRSHARAI</option>
+                  <option>MURADPUR</option>
+                  <option>NASIRABAD</option>
+                  <option>PAHARTALI</option>
+                  <option>POTENGA</option>
+                  <option>PATIYA</option>
+                  <option>RENGUNIA</option>
+                  <option>RAOZAN</option>
+                  <option>SANDWIP</option>
+                  <option>SATKANIA</option>
+                  <option>SITAKUNDA</option>
+
                     </select>
+
+
+                   <strong>Files:</strong><br>
+                    <input id="file-picker" type="file" name="file" accept="image/*" multiple>
+                    <div id="msg"></div>
             <input type="submit" name="submit" value="Post" style="margin-top: 15px">
             </form>
               {% endblock %}

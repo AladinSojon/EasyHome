@@ -54,6 +54,13 @@ body{
 			margin-top:1rem;
 		}
 
+		p[title] figure img{
+		    width: 180px;
+			height: 140px;
+			margin-top:1rem;
+
+		}
+
 		main a[title]{
 			text-decoration: none;
 			padding: 1rem;
@@ -78,12 +85,13 @@ body{
 </head>
 <body>
 <div id="header">
-
   <!-- This is where the image of the house goes -->
+  <p style="text-align:center;"><img src="../static/images/easyhome_logo.png"></p>
+
 </div>
-<p style="text-align:center;"><img src="../static/images/easyhome_logo.png"></p>
+
 <!--h1 class="main_title"><a href="#">EasyHome</a></h1-->
-<div id="navigation">
+<div id="navigation" style="margin-top: -155px">
           <ul id="nav">
             <li><a href="/" style="font-size: 11px">Home</a></li>
             <li><a href="#" style="font-size: 11px">About</a></li>
@@ -110,7 +118,12 @@ body{
         <table style="border-collapse: unset;width: 100%">
         <tr>
         <td style="width: 50%">
-        <img >
+        <a title="Post">
+        <figure>
+        <img src="{{url_for('send_image',filename=usr_image)}}">
+        </figure>
+        </a>
+
         <p style="margin-bottom: 2px"> {{session.username}} </p>
     {% endblock %}
         </td>
@@ -157,7 +170,10 @@ body{
 
 
 				<figure>
-					<img src="../static/images/newsfeed_image.png" alt="image-1">
+
+				    <img src="{{url_for('send_image',filename=img[d-l])}}">
+				    <p>{{ d }}</p>
+
 					<figcaption>Post</figcaption>
 				</figure>
 			</article>

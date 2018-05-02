@@ -48,8 +48,8 @@ body{
 		}
 
 		a[title] figure img{
-			width: 100%;
-			height: auto;
+			width: 360px;
+			height: 280px;
 			margin-top:1rem;
 		}
 
@@ -77,12 +77,13 @@ body{
 </head>
 <body>
 <div id="header">
-
   <!-- This is where the image of the house goes -->
+  <p style="text-align:center;"><img src="../static/images/easyhome_logo.png"></p>
+
 </div>
-<p style="text-align:center;"><img src="../static/images/easyhome_logo.png"></p>
+
 <!--h1 class="main_title"><a href="#">EasyHome</a></h1-->
-<div id="navigation">
+<div id="navigation" style="margin-top: -155px">
           <ul id="nav">
             <li><a href="/" style="font-size: 11px">Home</a></li>
             <li><a href="#" style="font-size: 11px">About</a></li>
@@ -93,7 +94,7 @@ body{
             {% endif %}
             <li><a href="#" style="font-size: 11px">Contact</a></li>
             {% if session.logged_in %}
-              <li><a href="/profile_main" style="font-size: 11px">My Profile</a></li>
+              <li><a href="/profile" style="font-size: 11px">My Profile</a></li>
               <li><a href="/logout" style="font-size: 11px">Logout</a></li>
             {% else %}
               <li><a href="/registertrans" style="font-size: 11px">Register</a></li>
@@ -184,7 +185,10 @@ body{
 
 
 				<figure>
-					<img src="../static/images/newsfeed_image.png" alt="image-1">
+
+				    <img src="{{url_for('send_image4',filename=img[d-l])}}">
+				    <p>{{ d }}</p>
+
 					<figcaption>Post</figcaption>
 				</figure>
 			</article>
