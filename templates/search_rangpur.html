@@ -15,6 +15,16 @@ Released for free under a Creative Commons Attribution 2.5 License
     <meta name="keywords" content="" />
     <title>EasyHome</title>
 <link href="../static/1.css?version=1" rel="stylesheet" type="text/css" />
+
+<script type="text/javascript">
+   function getvalue(Id) {
+       console.log(Id.childNodes[7].innerText);
+       // redirect("/description/"+Id.childNodes[7].innerText);
+       window.location.replace('http://127.0.0.1:5000/description/'+Id.childNodes[7].innerText);
+    }
+
+    </script>
+
 <style>
 body{
 			font: 1rem/1.6 "Helvetica", Sans-serif;
@@ -39,8 +49,8 @@ body{
 		}
 
 		a[title] figure img{
-			width: 100%;
-			height: auto;
+			width: 360px;
+			height: 280px;
 			margin-top:1rem;
 		}
 
@@ -74,7 +84,7 @@ body{
 </div>
 
 <!--h1 class="main_title"><a href="#">EasyHome</a></h1-->
-<div id="navigation" style="margin-top: -155px">
+<div id="navigation" style="margin-top: -145px">
           <ul id="nav">
             <li><a href="/" style="font-size: 11px">Home</a></li>
             <li><a href="#" style="font-size: 11px">About</a></li>
@@ -102,13 +112,27 @@ body{
           <form action="" method="POST">
               <p style="margin-top: 15px">Area</p>
                 <select style="width: 180px;height: 25px;margin-top: 15px" name="area">
-                     <option>FARIDPUR</option>
-                  <option>GAZIPUR</option>
-                  <option>GOPALGANJ</option>
-                  <option>JAMALPUR</option>
-                  <option>KISHOREGONJ</option>
-                  <option>MADARIPUR</option>
-                  <option>MANIKGANJ</option>
+                  <option>ALAMDANGHA</option>
+                  <option>BODORGANJ</option>
+                  <option>COLLEGE PARA</option>
+                  <option>MAHIGONJ</option>
+                  <option>MITHAPUKUR</option>
+                  <option>MODERN MORE</option>
+                  <option>PAGLAPUR</option>
+
+                  <option>POUROBAZAR</option>
+                  <option>SHATHIBARI</option>
+                  <option>SHATHMATHA CHOTTOR</option>
+                  <option>SHATRASTA MOR</option>
+                  <option>TAJHAT</option>
+                  <option>VINNO JOGOT</option>
+
+                  <option>JAHAJ COMPANY MORE</option>
+                  <option>DHAP</option>
+                  <option>SHAPLA CHOTTOR</option>
+                  <option>LALGAB MOR</option>
+                  <option>KACHARIBAZAR</option>
+
                     </select>
               <p>House Type</p>
               <select style="width: 180px;height: 25px;margin-top: 15px" name="housetype">
@@ -129,7 +153,7 @@ body{
       {% for d in li %}
     <a title="Post">
 
-			<article>
+			<article onclick="getvalue(this)">
 
                 {% for row in data[d] %}
                     {% if row==data[d][0] %}
@@ -145,7 +169,10 @@ body{
 
 
 				<figure>
-					<img src="../static/images/newsfeed_image.png" alt="image-1">
+
+				    <img src="{{url_for('send_image9',filename=img[d-l])}}">
+				    <p>{{ d }}</p>
+
 					<figcaption>Post</figcaption>
 				</figure>
 			</article>

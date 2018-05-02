@@ -115,7 +115,8 @@ def description(id):
     cursor.execute(
         "SELECT description from post_ad_table WHERE id=%s", [id_n[2]])
     des_data = cursor.fetchall()
-    return render_template("description.html",g_data=g_data,des_data=des_data)
+    img = id_n[2]+'jpg'
+    return render_template("description.html",g_data=g_data,des_data=des_data,filename=img)
 
 
 #
@@ -301,6 +302,95 @@ def search_barisal():
     return render_template("search_barisal.html")
 
 
+@app.route('/search_rajshahi',methods=['GET', 'POST'])
+def search_rajshahi():
+    if request.method == 'POST':
+        # Get Form Fields
+        area = request.form.get('area')
+        housetype = request.form.get('housetype')
+
+        # Create cursor
+        cur1 = mysql.connection.cursor()
+
+        # Get user by username
+        cur1.execute(
+            "SELECT address,housetype,rentfee,id FROM post_ad_table where (housetype, area)=(%s, %s)",
+            (housetype, area))
+        data = cur1.fetchall()
+
+        x = len(data)
+        print(x)
+
+        img = []
+        if x > 6:
+            li = range(x - 6, x)
+            li = [*li]
+            li.reverse()
+        else:
+            li = range(0, x)
+            li = [*li]
+            li.reverse()
+
+        for d in li:
+            print(d)
+            print(data[d][3])
+            img.append(str(data[d][3]) + ".jpg")
+
+        if x > 6:
+            l = x - 6
+        else:
+            l = 0
+        img = [*img]
+        img.reverse()
+
+        return render_template("search_rajshahi.html",data=data,li=li,img = img, l=l)
+    return render_template("search_rajshahi.html")
+
+
+@app.route('/search_rangpur',methods=['GET', 'POST'])
+def search_rangpur():
+    if request.method == 'POST':
+        # Get Form Fields
+        area = request.form.get('area')
+        housetype = request.form.get('housetype')
+
+        # Create cursor
+        cur1 = mysql.connection.cursor()
+
+        # Get user by username
+        cur1.execute(
+            "SELECT address,housetype,rentfee,id FROM post_ad_table where (housetype, area)=(%s, %s)",
+            (housetype, area))
+        data = cur1.fetchall()
+
+        x = len(data)
+        print(x)
+
+        img = []
+        if x > 6:
+            li = range(x - 6, x)
+            li = [*li]
+            li.reverse()
+        else:
+            li = range(0, x)
+            li = [*li]
+            li.reverse()
+
+        for d in li:
+            print(d)
+            print(data[d][3])
+            img.append(str(data[d][3]) + ".jpg")
+
+        if x > 6:
+            l = x - 6
+        else:
+            l = 0
+        img = [*img]
+        img.reverse()
+
+        return render_template("search_rangpur.html",data=data,li=li,img = img, l=l)
+    return render_template("search_rangpur.html")
+
 
 
 
@@ -412,6 +502,14 @@ def send_image6(filename):
 
 @app.route('/search_barisal/<filename>')
 def send_image7(filename):
+    return send_from_directory("images", filename)
+
+@app.route('/search_rajshahi/<filename>')
+def send_image8(filename):
+    return send_from_directory("images", filename)
+
+@app.route('/search_rangpur/<filename>')
+def send_image9(filename):
     return send_from_directory("images", filename)
 
 # User loginmain
