@@ -87,11 +87,10 @@ body{
             <li><a href="/" style="font-size: 11px">Home</a></li>
             <li><a href="#" style="font-size: 11px">About</a></li>
             {% if session.logged_in %}
-            <li><a href="/post_ad" style="font-size: 11px">Post Ad</a></li>
+            <li><a href="/post_ad" style="font-size: 11px">Post Your Ad</a></li>
             {% else %}
-            <li><a href="/logintransparent" style="font-size: 11px">Post Ad</a></li>
+            <li><a href="/logintransparent" style="font-size: 11px">Post Your Ad</a></li>
             {% endif %}
-              <li><a href="#" style="font-size: 11px">Contact</a></li>
             {% if session.logged_in %}
               <li><a href="/profile" style="font-size: 11px">My Profile</a></li>
               <li><a href="/logout" style="font-size: 11px">Logout</a></li>
@@ -107,13 +106,13 @@ body{
     <div id="sidebar">
       <h1>Cities</h1>
     <ul>
-      <li><a href="/search_dhaka" style="font-size: 15px">Dhaka</a></li>
-      <li><a href="/search_sylhet" style="font-size: 15px">Sylhet</a></li>
-      <li><a href="#" style="font-size: 15px">Khulna</a></li>
-      <li><a href="/search_rangpur" style="font-size: 15px">Rangpur</a></li>
-      <li><a href="/search_rajshahi" style="font-size: 15px">Rajshahi</a></li>
-      <li><a href="/search_barisal" style="font-size: 15px">Barisal</a></li>
-        <li><a href="/search_chittagong" style="font-size: 15px">Chittagong</a></li>
+      <li><a href="/search_dhaka" style="font-size: 18px">Dhaka</a></li>
+      <li><a href="/search_sylhet" style="font-size: 18px">Sylhet</a></li>
+      <li><a href="/search_khulna" style="font-size: 18px">Khulna</a></li>
+      <li><a href="/search_rangpur" style="font-size: 18px">Rangpur</a></li>
+      <li><a href="/search_rajshahi" style="font-size: 18px">Rajshahi</a></li>
+      <li><a href="/search_barisal" style="font-size: 18px">Barisal</a></li>
+      <li><a href="/search_chittagong" style="font-size: 18px">Chittagong</a></li>
 
     </ul>
     </div>

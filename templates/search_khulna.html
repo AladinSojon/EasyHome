@@ -11,20 +11,20 @@ Released for free under a Creative Commons Attribution 2.5 License
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
-
     <meta name="author" content="">
     <meta name="keywords" content="" />
     <title>EasyHome</title>
-    <link href="../static/1.css?version=1" rel="stylesheet" type="text/css" />
+<link href="../static/1.css?version=1" rel="stylesheet" type="text/css" />
 
-    <script type="text/javascript">
+<script type="text/javascript">
    function getvalue(Id) {
        console.log(Id.childNodes[7].innerText);
        // redirect("/description/"+Id.childNodes[7].innerText);
        window.location.replace('http://127.0.0.1:5000/description/'+Id.childNodes[7].innerText);
     }
 
-</script>
+    </script>
+
 <style>
 body{
 			font: 1rem/1.6 "Helvetica", Sans-serif;
@@ -52,13 +52,6 @@ body{
 			width: 360px;
 			height: 280px;
 			margin-top:1rem;
-		}
-
-		p[title] figure img{
-		    width: 180px;
-			height: 140px;
-			margin-top:1rem;
-
 		}
 
 		main a[title]{
@@ -91,13 +84,17 @@ body{
 </div>
 
 <!--h1 class="main_title"><a href="#">EasyHome</a></h1-->
-<div id="navigation" style="margin-top: -155px">
+<div id="navigation" style="margin-top: -145px">
           <ul id="nav">
             <li><a href="/" style="font-size: 11px">Home</a></li>
             <li><a href="#" style="font-size: 11px">About</a></li>
+             {% if session.logged_in %}
             <li><a href="/post_ad" style="font-size: 11px">Post Your Ad</a></li>
+            {% else %}
+            <li><a href="/logintransparent" style="font-size: 11px">Post Your Ad</a></li>
+            {% endif %}
             {% if session.logged_in %}
-              <li><a href="#" style="font-size: 11px">My Profile</a></li>
+              <li><a href="/profile" style="font-size: 11px">My Profile</a></li>
               <li><a href="/logout" style="font-size: 11px">Logout</a></li>
             {% else %}
               <li><a href="/registertrans" style="font-size: 11px">Register</a></li>
@@ -108,81 +105,89 @@ body{
         </div>
 <div id="container">
   <div id="inner_container">
-    <div id="sidebar_p">
+    <div id="sidebar">
     {% block body %}
-        <h1 style= "margin-top: 10px;text-align: center">Profile</h1>
-        <p style="text-align: right">
-            <a href="/edit_profile"><button autofocus="autofocus" style="border-radius: 1px">Edit Profile</button></a>
-        </p>
-        <table style="border-collapse: unset;width: 100%">
-        <tr>
-        <td style="width: 50%">
-        <a title="Post">
-        <figure>
-        <img src="{{url_for('send_image',filename=usr_image)}}">
-        </figure>
-        </a>
+        <h1>Search by</h1>
+          <form action="" method="POST">
+              <p style="margin-top: 15px">Area</p>
+                <select style="width: 180px;height: 25px;margin-top: 15px" name="area">
 
-        <p style="margin-bottom: 2px"> {{session.username}} </p>
-    {% endblock %}
-        </td>
-        <td style="width: 50%; text-align: left">
+                  <option>KHULNA SADAR</option>
+                  <option>BATIGHATA</option>
+                  <option>BOYRA BAZAR</option>
+                  <option>DACOPE</option>
+                  <option>DIGHALIA</option>
+                  <option>DUMURIA</option>
+                  <option>GOLLAMARI</option>
+                  <option>KHAN JAHAN ALI</option>
+
+                  <option>KOYLA GHAT</option>
+                  <option>KOYRA</option>
+                  <option>LOBON CHORA</option>
+                  <option>PABLA</option>
+                  <option>PAIKGACHA</option>
+                  <option>PHULTALA</option>
+
+                  <option>RAYER MOHOL</option>
+                  <option>TEROKHADA</option>
 
 
-                {% for row in data %}
+                  <option>SONADANGA</option>
+                  <option>KHALISHPUTR</option>
+                  <option>DAULATPUR</option>
+                  <option>RUPSHA</option>
 
-                        <p style="size: 20px">Name: {{row[0]}}</p>
 
-                        <p>E-mail: {{ row[2]}}</p>
+                    </select>
+              <p>House Type</p>
+              <select style="width: 180px;height: 25px;margin-top: 15px" name="housetype">
+                  <option>Family Flat</option>
+                  <option>Mes</option>
+                  <option>Commercial</option>
+              </select>
+               <input type="submit" name="submit" value="Search" style="margin-top: 15px">
 
-                        <p>Mobile No: {{ row[3]}}</p>
-
-                        <p>Address: {{ row[4]}}</p>
-
-                {% endfor %}
-
-        </td>
-
-        </tr>
-        </table>
+              </form>
+              {% endblock %}
     </div>
     <div id="content">
-      <h1 style= "margin-top: 10px; text-align: center">My Posted Advertise</h1>
+      <h1>Search Your House!</h1>
+      <h1>Newsfeed</h1>
        <main>
       <div>
       {% for d in li %}
-     <a title="Post" >
+    <a title="Post">
 
 			<article onclick="getvalue(this)">
 
-               {% for row in data_n[d] %}
-                    {% if row==data_n[d][0] %}
-                     <p style="color: white">Address : {{data_n[d][0]}}</p>
-                     {% elif row==data_n[d][1] %}
-                     <p style="color: white">Housetype : {{ data_n[d][1]}}</p>
-                     {% elif row==data_n[d][2] %}
-                     <p style="color: white">Rentfee : {{ data_n[d][2]}}</p>
-                     {% elif row==data_n[d][3] %}
-                     <p style="color: white">Id : {{ data_n[d][3]}}</p>
+                {% for row in data[d] %}
+                    {% if row==data[d][0] %}
+                     <p style="color: white">Address : {{data[d][0]}}</p>
+                     {% elif row==data[d][1] %}
+                     <p style="color: white">Housetype : {{ data[d][1]}}</p>
+                     {% elif row==data[d][2] %}
+                     <p style="color: white">Rentfee : {{ data[d][2]}}</p>
+                     {% elif row==data[d][3] %}
+                     <p style="color: white">Id : {{ data[d][3]}}</p>
                      {% endif%}
                 {% endfor %}
 
 
 				<figure>
 
-				    <img src="{{url_for('send_image',filename=img[d-l])}}">
+				    <img src="{{url_for('send_image10',filename=img[d-l])}}">
 				    <p>{{ d }}</p>
 
 					<figcaption>Post</figcaption>
 				</figure>
 			</article>
-			</a>
-		{% endfor %}
+		</a>
+
+      {% endfor %}
+
+
 		</div>
 		</main>
-      <blockquote>
-          <button style="color:midnightblue">See more..</button>
-      </blockquote>
     </div>
   </div>
 </div>

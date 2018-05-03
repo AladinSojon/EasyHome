@@ -29,9 +29,11 @@ Released for free under a Creative Commons Attribution 2.5 License
           <ul id="nav">
             <li><a href="/" style="font-size: 11px">Home</a></li>
             <li><a href="#" style="font-size: 11px">About</a></li>
-            <li><a href="/post_ad" style="font-size: 11px">Post Ad</a></li>
-              <li><a href="#" style="font-size: 11px">Contact</a></li>
-            {% if session.logged_in %}
+ {% if session.logged_in %}
+            <li><a href="/post_ad" style="font-size: 11px">Post Your Ad</a></li>
+            {% else %}
+            <li><a href="/logintransparent" style="font-size: 11px">Post Your Ad</a></li>
+            {% endif %}            {% if session.logged_in %}
               <li><a href="/profile" style="font-size: 11px">My Profile</a></li>
               <li><a href="/logout" style="font-size: 11px">Logout</a></li>
             {% else %}

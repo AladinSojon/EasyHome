@@ -29,12 +29,11 @@ Released for free under a Creative Commons Attribution 2.5 License
           <ul id="nav">
             <li><a href="/">Home</a></li>
             <li><a href="#">About</a></li>
-            {% if session.logged_in %}
-            <li><a href="/post_ad" style="font-size: 11px">Post Ad</a></li>
+             {% if session.logged_in %}
+            <li><a href="/post_ad" style="font-size: 11px">Post Your Ad</a></li>
             {% else %}
-            <li><a href="/logintransparent" style="font-size: 11px">Post Ad</a></li>
+            <li><a href="/logintransparent" style="font-size: 11px">Post Your Ad</a></li>
             {% endif %}
-              <li><a href="#">Contact</a></li>
             {% if session.logged_in %}
               <li><a href="#">My Profile</a></li>
               <li><a href="/logout">Logout</a></li>

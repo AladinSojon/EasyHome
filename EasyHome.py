@@ -101,6 +101,36 @@ def profile():
     return render_template("profile.html",data=data,data_n=data_n,li=li, img = img, l=l, usr_image = usr_image)
 
 
+@app.route('/edit_profile', methods=['GET', 'POST'])
+def edit_profile():
+    if request.method == 'POST':
+        name = request.form['name']
+        email = request.form['email']
+        mobileno = request.form['mobileno']
+        address= request.form['address']
+
+        print(name)
+        print(email)
+        print(mobileno)
+        print(address)
+
+        # Create cursor
+        cur = mysql.connection.cursor()
+
+        # Execute query
+        cur.execute("UPDATE resistration_db SET name=%s, email =%s, Mobile_no = %s, Address=%s WHERE username= %s"
+                    , (name, email, mobileno,address,[session['username']]))
+
+        # Commit to DB
+        mysql.connection.commit()
+
+        # Close connection
+        cur.close()
+        return redirect(url_for('profile'))
+    return render_template('edit_profile.html')
+
+
+
 @app.route('/description/<string:id>', methods = ['GET'])
 def description(id):
     homeId = id
@@ -392,6 +422,51 @@ def search_rangpur():
     return render_template("search_rangpur.html")
 
 
+@app.route('/search_khulna',methods=['GET', 'POST'])
+def search_khulna():
+    if request.method == 'POST':
+        # Get Form Fields
+        area = request.form.get('area')
+        housetype = request.form.get('housetype')
+
+        # Create cursor
+        cur1 = mysql.connection.cursor()
+
+        # Get user by username
+        cur1.execute(
+            "SELECT address,housetype,rentfee,id FROM post_ad_table where (housetype, area)=(%s, %s)",
+            (housetype, area))
+        data = cur1.fetchall()
+
+        x = len(data)
+        print(x)
+
+        img = []
+        if x > 6:
+            li = range(x - 6, x)
+            li = [*li]
+            li.reverse()
+        else:
+            li = range(0, x)
+            li = [*li]
+            li.reverse()
+
+        for d in li:
+            print(d)
+            print(data[d][3])
+            img.append(str(data[d][3]) + ".jpg")
+
+        if x > 6:
+            l = x - 6
+        else:
+            l = 0
+        img = [*img]
+        img.reverse()
+
+        return render_template("search_khulna.html",data=data,li=li,img = img, l=l)
+    return render_template("search_khulna.html")
+
+
 
 
 # User Register
@@ -469,7 +544,7 @@ def post_ad():
         # Close connection
         cur.close()
 
-        return render_template("index.html")
+        return redirect("http://127.0.0.1:5000/")
     return render_template("post_ad.html")
 
 
@@ -510,6 +585,10 @@ def send_image8(filename):
 
 @app.route('/search_rangpur/<filename>')
 def send_image9(filename):
+    return send_from_directory("images", filename)
+
+@app.route('/search_khulna/<filename>')
+def send_image10(filename):
     return send_from_directory("images", filename)
 
 # User loginmain
@@ -567,7 +646,8 @@ def is_logged_in(f):
 def logout():
     session.clear()
     flash('You are now logged out', 'success')
-    return render_template('index.html')
+    return redirect("http://127.0.0.1:5000/")
+
 
 # Dashboard
 @app.route('/dashboard')
@@ -627,7 +707,7 @@ def registertrans():
 
         flash('You are now registered and can log in', 'success')
 
-        return redirect(url_for('logintransparent'))
+        return redirect("http://127.0.0.1:5000/")
     return render_template('registertrans.html', form=form)
 
 
@@ -657,7 +737,7 @@ def logintransparent():
                 session['username'] = username
 
                 flash('You are now logged in', 'success')
-                return render_template('index.html')
+                return redirect("http://127.0.0.1:5000/")
             else:
                 error = 'Invalid login'
                 return render_template('logintransparent.html', error=error)
