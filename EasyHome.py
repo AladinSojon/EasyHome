@@ -139,7 +139,7 @@ def description(id):
     print(id_n)
     cursor = mysql.connection.cursor()
     cursor.execute(
-        "SELECT username,address,housetype,contact from post_ad_table WHERE id=%s", [id_n[2]])
+        "SELECT username,address,housetype,contact,id from post_ad_table WHERE id=%s", [id_n[2]])
     g_data = cursor.fetchall()
 
     cursor.execute(
@@ -147,6 +147,78 @@ def description(id):
     des_data = cursor.fetchall()
     img = id_n[2]+'jpg'
     return render_template("description.html",g_data=g_data,des_data=des_data,filename=img)
+
+
+@app.route('/update', methods = ['GET'])
+def update():
+    homeId = request.args['query']
+    id_n = homeId.split()
+    print(id_n[2])
+    # homeId = 12
+    # id_n = homeId.split()
+    # print(id_n)
+    cursor = mysql.connection.cursor()
+    cursor.execute(
+         "SELECT * from post_ad_table WHERE id=%s", [id_n[2]])
+    g_data = cursor.fetchall()
+
+    cursor1 = mysql.connection.cursor()
+    cursor1.execute(
+        "INSERT INTO fav_tab(id,address, housetype, description, rentfee, contact, division, district, area, username) VALUES(%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)",
+        (g_data[0][0], g_data[0][1], g_data[0][2], g_data[0][3], g_data[0][4], g_data[0][5], g_data[0][6], g_data[0][7], g_data[0][8],g_data[0][10]))
+
+    mysql.connection.commit()
+
+    # Close connection
+    cursor1.close()
+    #
+    # cursor.execute(
+    #     "SELECT description from post_ad_table WHERE id=%s", [id_n[2]])
+    # des_data = cursor.fetchall()
+    # img = id_n[2]+'jpg'
+    return "1"
+
+
+
+
+@app.route('/favourite',methods=['GET', 'POST'])
+def favourite():
+
+        # Create cursor
+        cur1 = mysql.connection.cursor()
+
+        # Get user by username
+        cur1.execute(
+            "SELECT address,housetype,rentfee,id FROM fav_tab")
+        data=cur1.fetchall()
+
+        x= len(data)
+        print(x)
+
+        img = []
+        if x > 6:
+            li = range(x - 6, x)
+            li = [*li]
+            li.reverse()
+        else:
+            li = range(0, x)
+            li = [*li]
+            li.reverse()
+
+        for d in li:
+            print(d)
+            print(data[d][3])
+            img.append(str(data[d][3]) + ".jpg")
+
+        if x > 6:
+            l = x - 6
+        else:
+            l = 0
+        img = [*img]
+        img.reverse()
+
+        return render_template("favourite.html",data=data,li=li,img = img, l=l)
+
 
 
 #

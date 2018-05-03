@@ -11,11 +11,10 @@ Released for free under a Creative Commons Attribution 2.5 License
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
-
     <meta name="author" content="">
     <meta name="keywords" content="" />
     <title>EasyHome</title>
-    <link href="../static/1.css?version=1" rel="stylesheet" type="text/css" />
+<link href="../static/1.css?version=1" rel="stylesheet" type="text/css" />
 
     <script type="text/javascript">
    function getvalue(Id) {
@@ -24,7 +23,7 @@ Released for free under a Creative Commons Attribution 2.5 License
        window.location.replace('http://127.0.0.1:5000/description/'+Id.childNodes[7].innerText);
     }
 
-</script>
+    </script>
 <style>
 body{
 			font: 1rem/1.6 "Helvetica", Sans-serif;
@@ -54,13 +53,6 @@ body{
 			margin-top:1rem;
 		}
 
-		p[title] figure img{
-		    width: 180px;
-			height: 140px;
-			margin-top:1rem;
-
-		}
-
 		main a[title]{
 			text-decoration: none;
 			padding: 1rem;
@@ -81,25 +73,7 @@ body{
 			box-shadow: 0 14px 28px rgba(0, 0, 0, .25), 0 10px 10px rgba(0, 0, 0, .20);
 
 		}
-
-		.button {
-  display: inline-block;
-  padding: 10px 20px;
-  font-size: 11px;
-  cursor: pointer;
-  text-align: center;
-  text-decoration: none;
-  outline: none;
-  color: #fff;
-  background-color: #31a6af;
-  border: none;
-  border-radius: 18px;
-  box-shadow: 0 5px #999;
-
-}
 </style>
-
-
 </head>
 <body>
 <div id="header">
@@ -113,9 +87,13 @@ body{
           <ul id="nav">
             <li><a href="/" style="font-size: 11px">Home</a></li>
             <li><a href="#" style="font-size: 11px">About</a></li>
-            <li><a href="/post_ad" style="font-size: 11px">Post Your Ad</a></li>
             {% if session.logged_in %}
-              <li><a href="#" style="font-size: 11px">My Profile</a></li>
+            <li><a href="/post_ad" style="font-size: 11px">Post Ad</a></li>
+            {% else %}
+            <li><a href="/logintransparent" style="font-size: 11px">Post Ad</a></li>
+            {% endif %}
+            {% if session.logged_in %}
+              <li><a href="/profile" style="font-size: 11px">My Profile</a></li>
               <li><a href="/logout" style="font-size: 11px">Logout</a></li>
             {% else %}
               <li><a href="/registertrans" style="font-size: 11px">Register</a></li>
@@ -126,85 +104,43 @@ body{
         </div>
 <div id="container">
   <div id="inner_container">
-    {% block body %}
-        <h1 style= "margin-top: 10px;text-align: center">Profile</h1>
-
-         <p style="text-align: right">
-            <a href="/favourite"><button class="button" >My Favourites Ads</button></a>
-        </p>
-
-
-        <p style="text-align: right">
-            <a href="/edit_profile"><button class="button">Edit Profile</button></a>
-        </p>
-
-        <table style="border-collapse: unset;width: 100%">
-        <tr>
-        <td style="width: 50%">
-        <a title="Post">
-        <figure>
-        <img src="{{url_for('send_image',filename=usr_image)}}">
-        </figure>
-        </a>
-
-        <p style="margin-bottom: 2px"> {{session.username}} </p>
-    {% endblock %}
-        </td>
-        <td style="width: 50%; text-align: left">
-
-
-                {% for row in data %}
-
-                        <p style="size: 20px">Name: {{row[0]}}</p>
-
-                        <p>E-mail: {{ row[2]}}</p>
-
-                        <p>Mobile No: {{ row[3]}}</p>
-
-                        <p>Address: {{ row[4]}}</p>
-
-                {% endfor %}
-
-        </td>
-
-        </tr>
-        </table>
-    </div>
     <div id="content">
-      <h1 style= "margin-top: 10px; text-align: center">My Posted Advertise</h1>
+      <h1>My Favourite Ads!</h1>
        <main>
       <div>
       {% for d in li %}
-     <a title="Post" >
+    <a title="Post">
 
 			<article onclick="getvalue(this)">
 
-               {% for row in data_n[d] %}
-                    {% if row==data_n[d][0] %}
-                     <p style="color: white">Address : {{data_n[d][0]}}</p>
-                     {% elif row==data_n[d][1] %}
-                     <p style="color: white">Housetype : {{ data_n[d][1]}}</p>
-                     {% elif row==data_n[d][2] %}
-                     <p style="color: white">Rentfee : {{ data_n[d][2]}}</p>
-                     {% elif row==data_n[d][3] %}
-                     <p style="color: white">Id : {{ data_n[d][3]}}</p>
+                {% for row in data[d] %}
+                    {% if row==data[d][0] %}
+                     <p style="color: white">Address : {{data[d][0]}}</p>
+                     {% elif row==data[d][1] %}
+                     <p style="color: white">Housetype : {{ data[d][1]}}</p>
+                     {% elif row==data[d][2] %}
+                     <p style="color: white">Rentfee : {{ data[d][2]}}</p>
+                     {% elif row==data[d][3] %}
+                     <p style="color: white">Id : {{ data[d][3]}}</p>
                      {% endif%}
                 {% endfor %}
 
 
 				<figure>
 
-				    <img src="{{url_for('send_image',filename=img[d-l])}}">
+				    <img src="{{url_for('send_image4',filename=img[d-l])}}">
 				    <p>{{ d }}</p>
 
 					<figcaption>Post</figcaption>
 				</figure>
 			</article>
-			</a>
-		{% endfor %}
+		</a>
+
+      {% endfor %}
+
+
 		</div>
 		</main>
-
     </div>
   </div>
 </div>
